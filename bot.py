@@ -25,7 +25,7 @@ Dada una pregunta del usuario:
 2. Revisa los resultados
 3. Devuelve la información solicitada
 4. Todas tus respuestas deben ser en español
-#{request}
+# {request}
 """
 
 
@@ -36,3 +36,13 @@ def consulta(input_usuario):
     query = model.format(request=input_usuario)
     output = db_chain.run(query)
     return (output)
+
+
+while True:
+    user_input = input("\nIngrese su consulta:\n")
+    if user_input.lower() == 'salir':
+        break
+    else:
+        result = consulta(user_input)
+        print('')
+        print(result)
