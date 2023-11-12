@@ -1,3 +1,0 @@
-# Libraries
--langchain
--openai
