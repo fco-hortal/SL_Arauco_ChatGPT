@@ -24,6 +24,16 @@ pip install langchain
 pip install langchain-experimental
 ```
 
+```bash
+# Lecutra de DataFrames para LangChain
+pip install tabulate
+```
+
+```bash
+# Facilita lectura para archivos QVD
+pip install qvd
+```
+
 ## Acceso y Uso de API
 
 Para poder funcionar, el chatbot se conecta a la API de OpenAI. Por este motivo es necesario ofrecer mediante una variable de entorno una API KEY.
