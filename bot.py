@@ -1,40 +1,51 @@
-from langchain.utilities import SQLDatabase
-from langchain_experimental.sql import SQLDatabaseChain
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent as pd_agent
+from langchain.agents.agent_types import AgentType
 from langchain.chat_models import ChatOpenAI
+from langchain.llms import OpenAI
+from qvd import qvd_reader
+import pandas as pd
 # pip install "openai<1.0.0"
 import openai
-import os
 from dotenv import load_dotenv
+import os
+import time
+
 
 # OpenAI Api Key
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = api_key
 
-# Creamos LLM
-llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
+# Cargamos el QVD
+df = qvd_reader.read('Precio_venta.qvd')
 
-# Langchain y base de datos
-db = SQLDatabase.from_uri("sqlite:///ecommerce.db")
-db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)
 
-# Formato de respuesta
-model = """
-Dada una pregunta del usuario:
-1. Crea una consulta de sqlite3
-2. Revisa los resultados
-3. Devuelve la información solicitada
-4. Todas tus respuestas deben ser en español
-# {request}
-"""
+def convert_dtypes(df):
+    """
+    Conversión numérica
+    """
+    cols = df.columns
+    for c in cols:
+        try:
+            df[c] = pd.to_numeric(df[c])
+        except:
+            pass
+
+
+# Convertimos los tipos de datos
+convert_dtypes(df)
+
+agent = pd_agent(OpenAI(temperature=0), df, verbose=True)
 
 
 def consulta(input_usuario):
     """
     Función para realizar consultas a la base de datos
     """
-    query = model.format(request=input_usuario)
-    output = db_chain.run(query)
+    tiempo_inicial = time.time()
+    output = agent.run(input_usuario)
+    tiempo_final = time.time()
+    print(f"Tiempo de ejecución: {tiempo_final - tiempo_inicial}")
     return (output)
 
 

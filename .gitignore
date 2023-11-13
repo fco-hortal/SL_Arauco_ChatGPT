@@ -163,4 +163,5 @@ cython_debug/
 *.qvd
 *.db
 *.csv
+*.png
 pandasai.log
