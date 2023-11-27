@@ -1,19 +1,13 @@
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent as pd_agent
+from langchain.llms import OpenAI
 from langchain.agents.agent_types import AgentType
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
 from qvd import qvd_reader
 import pandas as pd
-from datetime import datetime
-import locale
-# pip install "openai<1.0.0"
 import openai
 from dotenv import load_dotenv
 import os
 import time
-
-# Localidad
-locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
 
 # OpenAI Api Key
 load_dotenv()
@@ -34,18 +28,16 @@ def convert_dtypes(df):
 
 
 # Import the QVD file
-df = qvd_reader.read('Volumen_Prod.qvd')
-# df['Periodo'] = df['Periodo'].astype(
-#     str).str[0:4] + df['Periodo'].astype(str).str[5:7]
-# df['Periodo'] = pd.to_datetime(df['Periodo'], format='%Y%m')
-# df['Periodo'] = df['Periodo'].dt.strftime('%B %Y').str.capitalize()
-convert_dtypes(df)
+pv = qvd_reader.read('data/Precio_venta.qvd')
+vp = qvd_reader.read('data/Volumen_Prod.qvd')
+convert_dtypes(pv)
+convert_dtypes(vp)
 
-
-# Convertimos los tipos de datos
-convert_dtypes(df)
-
-agent = pd_agent(OpenAI(temperature=0), df, verbose=True)
+agent = pd_agent(
+    OpenAI(temperature=0),
+    [pv, vp],
+    verbose=True
+)
 
 
 def consulta(input_usuario):
