@@ -4,20 +4,21 @@ from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAI
 from qvd import qvd_reader
 import pandas as pd
+from datetime import datetime
+import locale
 # pip install "openai<1.0.0"
 import openai
 from dotenv import load_dotenv
 import os
 import time
 
+# Localidad
+locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
 
 # OpenAI Api Key
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = api_key
-
-# Cargamos el QVD
-df = qvd_reader.read('Precio_venta.qvd')
 
 
 def convert_dtypes(df):
@@ -30,6 +31,15 @@ def convert_dtypes(df):
             df[c] = pd.to_numeric(df[c])
         except:
             pass
+
+
+# Import the QVD file
+df = qvd_reader.read('Volumen_Prod.qvd')
+# df['Periodo'] = df['Periodo'].astype(
+#     str).str[0:4] + df['Periodo'].astype(str).str[5:7]
+# df['Periodo'] = pd.to_datetime(df['Periodo'], format='%Y%m')
+# df['Periodo'] = df['Periodo'].dt.strftime('%B %Y').str.capitalize()
+convert_dtypes(df)
 
 
 # Convertimos los tipos de datos
