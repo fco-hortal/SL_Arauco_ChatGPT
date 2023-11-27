@@ -1,4 +1,4 @@
-openai
+openai<1.0.0
 langchain
 langchain-experimental
 tabulate
