@@ -34,26 +34,34 @@ def convert_dtypes(df):
 
 
 # Import the QVD file
-df = qvd_reader.read('Volumen_Prod.qvd')
-# df['Periodo'] = df['Periodo'].astype(
-#     str).str[0:4] + df['Periodo'].astype(str).str[5:7]
-# df['Periodo'] = pd.to_datetime(df['Periodo'], format='%Y%m')
-# df['Periodo'] = df['Periodo'].dt.strftime('%B %Y').str.capitalize()
-convert_dtypes(df)
+vp = qvd_reader.read('data/Volumen_Prod.qvd')
+pv = qvd_reader.read('data/Precio_venta.qvd')
+convert_dtypes(vp)
+convert_dtypes(pv)
 
-
-# Convertimos los tipos de datos
-convert_dtypes(df)
-
-agent = pd_agent(OpenAI(temperature=0), df, verbose=True)
+# Create agent
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+chat = ChatOpenAI(
+    model_name='gpt-3.5-turbo',
+    temperature=0,
+    openai_api_key=api_key,
+)
+agent = pd_agent(chat, [vp, pv], verbose=True)
 
 
 def consulta(input_usuario):
-    """
-    Función para realizar consultas a la base de datos
-    """
     tiempo_inicial = time.time()
-    output = agent.run(input_usuario)
+    context = """
+    Eres un chatbot que responde preguntas sobre el sistema financiero de Arauco.
+    Para ello te entrego dos bases de datos: volúmen de productos y ventas de productos.
+    A continuación te haré una pregunta sobre estas bases de datos. Quiero que a tu
+    respuesta le añadas la consulta que haces a Pandas para encontrar la información solicitada.
+
+    Si no encuentras la respuesta en un df, busca en el otro.
+
+    La pregunta es la siguiente:\n
+    """
+    output = agent.run(context + input_usuario)
     tiempo_final = time.time()
     print(f"Tiempo de ejecución: {tiempo_final - tiempo_inicial}")
     return (output)
