@@ -41,8 +41,15 @@ agent = pd_agent(
 
 
 def consulta(input_usuario):
+    tiempo_inicial = time.time()
+    context = """
+    Eres un chatbot que responde preguntas sobre el sistema financiero de Arauco.
+    Para ello te entrego dos bases de datos: volúmen de productos y ventas de productos.
+    A continuación te haré una pregunta sobre estas bases de datos. Quiero que a tu
+    respuesta le añadas la consulta que haces a Pandas para encontrar la información solicitada.
+    La pregunta es la siguiente:\n
     """
-    Función para realizar consultas a la base de datos
-    """
-    output = agent.run(input_usuario)
+    output = agent.run(context + input_usuario)
+    tiempo_final = time.time()
+    print(f"Tiempo de ejecución: {tiempo_final - tiempo_inicial}")
     return (output)
