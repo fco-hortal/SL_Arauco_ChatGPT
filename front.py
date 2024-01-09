@@ -4,7 +4,7 @@ from streamlit_chat import message
 from datetime import datetime
 
 # Título y descripción de la aplicación
-st.title("App prueba Arauco Chat")
+st.title("App Arauco Chat")
 st.write("¡Sin Límites!")
 
 # Inicializar la lista de conversación si no existe en el estado de la sesión

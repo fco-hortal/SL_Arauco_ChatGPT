@@ -49,5 +49,5 @@ Action Input: input for the action, without backticks "`" around it
 Observation: the result of the action
 ... (repeat Thought/Action/Action Input/Observation as needed)
 Thought: conclude the process with the final answer
-Final Answer: provide the ultimate answer to the original question. Respond in Spanish.
+Final Answer: provide the ultimate answer to the original question. Important, respond in Spanish language.
 """

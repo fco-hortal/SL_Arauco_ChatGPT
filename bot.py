@@ -46,8 +46,9 @@ memory = CombinedMemory(
     memories=[chat_history_buffer, chat_history_summary, chat_history_KG])
 
 agent = pd_agent(chat, [vp, pv], verbose=True,
-                 agent_executor_kwargs={"memory": memory},
-                 input_variables=['df_head', 'input', 'agent_scratchpad', 'chat_history_buffer', 'chat_history_summary', 'chat_history_KG'])
+                 #agent_executor_kwargs={"memory": memory},
+                 #input_variables=['df_head', 'input', 'agent_scratchpad', 'chat_history_buffer', 'chat_history_summary', 'chat_history_KG']
+                 )
 
 
 def consulta(input_usuario):
