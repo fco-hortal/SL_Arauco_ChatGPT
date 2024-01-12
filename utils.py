@@ -26,20 +26,19 @@ I will now ask you a question about these databases. I want you to include the P
 you use in your response to find the requested information.
 
 If you don't find the answer in one dataframe, please search in the other.
-
-By the way, You should use the tools below to answer the question posed of you:
-
-Summary of the whole conversation:
-{chat_history_summary}
-
-Last few messages between you and user:
-{chat_history_buffer}
-
-Entities that the conversation is about:
-{chat_history_KG}
-
 The question is as follows:\n
 """
+
+# By the way, You should use the tools below to answer the question posed of you:
+
+# Summary of the whole conversation:
+# {chat_history_summary}
+
+# Last few messages between you and user:
+# {chat_history_buffer}
+
+# Entities that the conversation is about:
+# {chat_history_KG}
 
 FORMAT_INSTRUCTIONS = """\nUse the following format:
 Question: the input question you must answer
