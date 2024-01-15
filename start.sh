@@ -1,1 +1,4 @@
-gunicorn -b :8000 api_bot:app 
+'''set timezone to UTC'''
+export TZ=UTC
+'''start flask server'''
+flask --app api_bot.py run

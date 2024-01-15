@@ -54,6 +54,11 @@ agent = pd_agent(chat, [vp, pv], verbose=True,
 # Create Flask app
 app = Flask(__name__)
 
+# Define /
+@app.route('/', methods=['GET'])
+def index():
+    return 'Hello World!'
+
 # Define the /api/messages endpoint
 @app.route('/api/messages', methods=['POST'])
 def messages():
