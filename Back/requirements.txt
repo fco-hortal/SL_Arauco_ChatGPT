@@ -1,0 +1,8 @@
+openai<1.0.0
+langchain
+langchain-experimental
+tabulate
+qvd
+flask
+python-dotenv
+pandas
