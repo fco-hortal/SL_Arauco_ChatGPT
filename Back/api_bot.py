@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os
 
 # Localidad
-locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
+#locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
 
 # OpenAI Api Key
 load_dotenv()
