@@ -68,18 +68,21 @@ def messages():
         output = agent.run(CONTEXT + user_input + FORMAT_INSTRUCTIONS)
         app.logger.info(f"Agent output: {output}")
         
-        # Send the response to the user
         response = {
-            'type': 'message',
-            'text': output,
-            'from': {
-                'id': request_body['from']['id'],
-                'name': request_body['from']['name']
-            },
-            'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
-            'conversation': {
-                'id': request_body['conversation']['id'],
-            }
+        'type': 'message',
+        'text': output,
+        'from': {
+            'id': request_body['from']['id'],
+            'name': request_body['from']['name']
+        },
+        'recipient': {
+            'id': request_body['from']['id'],
+            'name': request_body['from']['name']
+        },
+        'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+        'conversation': {
+            'id': request_body['conversation']['id'],
+        }
         }
         return response
     
