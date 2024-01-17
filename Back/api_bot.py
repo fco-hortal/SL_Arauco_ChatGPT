@@ -45,7 +45,8 @@ def index():
 def messages():
     if request.method == 'POST':
         # Get the user input from the request body
-        user_input = request.get_json().get('text')
+        activity = request.get_json().get('activities')[0]
+        user_input = activity['text']
         # Run the agent with the user input
         output = agent.run(CONTEXT + user_input + FORMAT_INSTRUCTIONS)
         # Return the output as JSON
