@@ -7,3 +7,4 @@ flask
 python-dotenv
 pandas
 datetime
+logging

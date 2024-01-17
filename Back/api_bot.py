@@ -8,6 +8,7 @@ import openai
 from dotenv import load_dotenv
 import os
 import datetime
+import logging
 
 # Localidad
 #locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
@@ -36,6 +37,9 @@ agent = pd_agent(chat, [vp, pv], verbose=True)
 # Create Flask app
 app = Flask(__name__)
 
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+
 # Define /
 @app.route('/', methods=['GET'])
 def index():
@@ -48,13 +52,23 @@ def messages():
         # Get the user input from the request body
         request_body = request.get_json()
         if request_body is None:
+            app.logger.error('Request body is empty or not in JSON format')
             return jsonify({'error': 'Request body is empty or not in JSON format'})
+        
+        app.logger.debug(f"Request body: {request_body}")
+        
         activities = request_body.get('activities')
         if activities is None or len(activities) == 0:
+            app.logger.error('No activities found in request body')
             return jsonify({'error': 'No activities found in request body'})
+        
         user_input = activities[0]['text']
+        app.logger.info(f"User input: {user_input}")
+        
         # Run the agent with the user input
         output = agent.run(CONTEXT + user_input + FORMAT_INSTRUCTIONS)
+        app.logger.info(f"Agent output: {output}")
+        
         # Send the response to the user
         response = {
             'type': 'message',
@@ -63,14 +77,15 @@ def messages():
                 'id': '/subscriptions/06b03b15-87f2-4f86-92d7-380c2df24ce5/resourceGroups/GLOBAL_IA_PULP-rg/providers/Microsoft.BotService/botServices/SL-ChatGPT-Gestion-Front',
                 'name': 'SL-ChatGPT-Gestion-Front'
             },
-            'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+            'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             'conversation': {
                 'id': activities[0]['conversation']['id']
             }
         }
+        
+        app.logger.debug(f"Response sent: {response}")
         return jsonify({'activities': [response]})
     
-
 
 # Run the app on port 5000
 if __name__ == '__main__':
