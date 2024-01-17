@@ -57,12 +57,11 @@ def messages():
         
         app.logger.debug(f"Request body: {request_body}")
         
-        activities = request_body.get('activities')
-        if activities is None or len(activities) == 0:
-            app.logger.error('No activities found in request body')
-            return jsonify({'error': 'No activities found in request body'})
+        if request_body['type'] != 'message':
+            app.logger.error('Request body type is not message')
+            return jsonify({'error': 'Request body type is not message'})
         
-        user_input = activities[0]['text']
+        user_input = request_body['text']
         app.logger.info(f"User input: {user_input}")
         
         # Run the agent with the user input
@@ -79,12 +78,12 @@ def messages():
             },
             'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             'conversation': {
-                'id': activities[0]['conversation']['id']
+                'id': request_body['conversation']['id'],
             }
         }
         
         app.logger.debug(f"Response sent: {response}")
-        return jsonify({'activities': [response]})
+        return jsonify(response)
     
 
 # Run the app on port 5000
