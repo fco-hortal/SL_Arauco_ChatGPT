@@ -73,16 +73,15 @@ def messages():
             'type': 'message',
             'text': output,
             'from': {
-                'id': '/subscriptions/06b03b15-87f2-4f86-92d7-380c2df24ce5/resourceGroups/GLOBAL_IA_PULP-rg/providers/Microsoft.BotService/botServices/SL-ChatGPT-Gestion-Front',
-                'name': 'SL-ChatGPT-Gestion-Front'
+                'id': request_body['from']['id'],
+                'name': request_body['from']['name']
             },
             'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             'conversation': {
                 'id': request_body['conversation']['id'],
             }
         }
-        
-        return jsonify(response)
+        return response
     
 
 # Run the app on port 5000
