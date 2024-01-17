@@ -68,7 +68,9 @@ def messages():
                 'id': activities[0]['conversation']['id']
             }
         }
+        print(jsonify({'activities': [response]}))
         return jsonify({'activities': [response]})
+    
 
 
 # Run the app on port 5000
