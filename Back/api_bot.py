@@ -84,7 +84,8 @@ def messages():
             'id': request_body['conversation']['id'],
         }
         }
-        return response
+        app.logger.info(f"Response: {response}")
+        return jsonify(response)
     
 
 # Run the app on port 5000
