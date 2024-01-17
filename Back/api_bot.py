@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 import os
 import datetime
 import logging
+from aiohttp import web
+from aiohttp.web import Request, Response, json_response
 
 # Localidad
 #locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
@@ -83,7 +85,7 @@ def messages():
         }
         
         app.logger.debug(f"Response sent: {response}")
-        return jsonify(response)
+        return json_response(response)
     
 
 # Run the app on port 5000
