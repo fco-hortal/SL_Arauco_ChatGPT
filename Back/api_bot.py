@@ -7,6 +7,7 @@ import locale
 import openai
 from dotenv import load_dotenv
 import os
+import datetime
 
 # Localidad
 #locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
@@ -54,8 +55,21 @@ def messages():
         user_input = activities[0]['text']
         # Run the agent with the user input
         output = agent.run(CONTEXT + user_input + FORMAT_INSTRUCTIONS)
-        # Return the output as JSON
-        return jsonify(output)
+        # Send the response to the user
+        response = {
+            'type': 'message',
+            'text': output,
+            'from': {
+                'id': 'bot',
+                'name': 'My Bot'
+            },
+            'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+            'conversation': {
+                'id': activities[0]['conversation']['id']
+            }
+        }
+        return jsonify({'activities': [response]})
+
 
 # Run the app on port 5000
 if __name__ == '__main__':
