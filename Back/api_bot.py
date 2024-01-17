@@ -60,15 +60,14 @@ def messages():
             'type': 'message',
             'text': output,
             'from': {
-                'id': 'bot',
-                'name': 'My Bot'
+                'id': '/subscriptions/06b03b15-87f2-4f86-92d7-380c2df24ce5/resourceGroups/GLOBAL_IA_PULP-rg/providers/Microsoft.BotService/botServices/SL-ChatGPT-Gestion-Front',
+                'name': 'SL-ChatGPT-Gestion-Front'
             },
             'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             'conversation': {
                 'id': activities[0]['conversation']['id']
             }
         }
-        print(jsonify({'activities': [response]}))
         return jsonify({'activities': [response]})
     
 
