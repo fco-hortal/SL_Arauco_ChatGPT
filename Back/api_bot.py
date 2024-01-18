@@ -76,8 +76,8 @@ def messages():
             'name': request_body['from']['name']
         },
         'recipient': {
-            'id': request_body['from']['id'],
-            'name': request_body['from']['name']
+            'id': request_body['recipient']['id'],
+            'name': request_body['recipient']['name']
         },
         'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
         'conversation': {
